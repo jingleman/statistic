@@ -48,7 +48,7 @@ public:
 
 class Avg : public Statistic
 {
-  size_t _n;
+  size_t _n;  // Could have this in Statistic, for debug purposes.
 public:
   Avg() : _n(0), Statistic(0.0f) {}
   virtual void Update(float f_) {_f += f_; ++_n;}
