@@ -6,6 +6,7 @@
 #include <time.h>
 #include <vector>
 #include <iostream> // cout, endl
+#include <memory> // allocator
 using std::vector;
 using std::cout;
 using std::endl;
@@ -13,7 +14,7 @@ using std::endl;
 int main()
 {
   size_t n = 10;
-  vector<float> v;
+  vector<float, std::allocator<float>> v;
   srand(time(0));
   cout << "input: ";
   for (size_t i = 0; i < n; ++i) {
