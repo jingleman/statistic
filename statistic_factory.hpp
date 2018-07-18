@@ -30,12 +30,17 @@ public:
   class Min : public Statistic
   {
     using Statistic::_f;
+    NumberType Initial() const {
+      return numeric_limits<NumberType>::has_infinity
+          ?  numeric_limits<NumberType>::infinity()
+          :  numeric_limits<NumberType>::max();
+    }
   public:
-    Min() : Statistic(numeric_limits<NumberType>::infinity()) {}
+    Min() : Statistic(Initial()) {}
     virtual void Update(NumberType f_) {_f = std::min(_f, f_);}
     virtual NumberType GetResult() const
     {
-      assert(_f != numeric_limits<NumberType>::infinity());
+      assert(_f != Initial());
       return _f;
     }
   };
@@ -43,12 +48,17 @@ public:
   class Max : public Statistic
   {
     using Statistic::_f;
+    NumberType Initial() const {
+      return numeric_limits<NumberType>::has_infinity
+          ? -numeric_limits<NumberType>::infinity()
+          :  numeric_limits<NumberType>::lowest();
+    }
   public:
-    Max() : Statistic(-numeric_limits<NumberType>::infinity()) {}
+    Max() : Statistic(Initial()) {}
     virtual void Update(NumberType f_) {_f = std::max(_f, f_);}
     virtual NumberType GetResult() const
     {
-      assert(_f != -numeric_limits<NumberType>::infinity());
+      assert(_f != Initial());
       return _f;
     }
   };
