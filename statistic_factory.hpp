@@ -12,31 +12,30 @@ using std::numeric_limits;
 using std::cout;
 using std::endl;
 
-template <class T>
+template <class NumberType>
 class StatisticFactory
 {
-  T _t;
 public:
   class Statistic
   {
   protected:
-    float _f;
-    Statistic(float f_) : _f(f_) {}
+    NumberType _f;
+    Statistic(NumberType f_) : _f(f_) {}
   public:
     virtual ~Statistic() {}
-    virtual void Update(float f_)   = 0;
-    virtual float GetResult() const = 0;
+    virtual void Update(NumberType f_)   = 0;
+    virtual NumberType GetResult() const = 0;
   };
 
   class Min : public Statistic
   {
     using Statistic::_f;
   public:
-    Min() : Statistic(numeric_limits<float>::infinity()) {}
-    virtual void Update(float f_) {_f = std::min(_f, f_);}
-    virtual float GetResult() const
+    Min() : Statistic(numeric_limits<NumberType>::infinity()) {}
+    virtual void Update(NumberType f_) {_f = std::min(_f, f_);}
+    virtual NumberType GetResult() const
     {
-      assert(_f != numeric_limits<float>::infinity());
+      assert(_f != numeric_limits<NumberType>::infinity());
       return _f;
     }
   };
@@ -45,11 +44,11 @@ public:
   {
     using Statistic::_f;
   public:
-    Max() : Statistic(-numeric_limits<float>::infinity()) {}
-    virtual void Update(float f_) {_f = std::max(_f, f_);}
-    virtual float GetResult() const
+    Max() : Statistic(-numeric_limits<NumberType>::infinity()) {}
+    virtual void Update(NumberType f_) {_f = std::max(_f, f_);}
+    virtual NumberType GetResult() const
     {
-      assert(_f != -numeric_limits<float>::infinity());
+      assert(_f != -numeric_limits<NumberType>::infinity());
       return _f;
     }
   };
@@ -60,11 +59,11 @@ public:
     size_t _n;  // Could have this in Statistic, for debug purposes.
   public:
     Avg() : Statistic(0.0f), _n(0) {}
-    virtual void Update(float f_) {_f += f_; ++_n;}
-    virtual float GetResult() const
+    virtual void Update(NumberType f_) {_f += f_; ++_n;}
+    virtual NumberType GetResult() const
     {
       assert(_n != 0);
-      return _f / static_cast<float>(_n);
+      return _f / static_cast<NumberType>(_n);
     }
   };
 
