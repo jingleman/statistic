@@ -13,7 +13,7 @@ using std::cout;
 using std::endl;
 
 typedef float NumberType;
-typedef StatisticFactory<NumberType, std::allocator<NumberType>> SF;
+typedef StatisticFactory<NumberType, int /* dummy */> SF;
 
 int main()
 {

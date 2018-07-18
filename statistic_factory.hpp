@@ -12,7 +12,7 @@ using std::numeric_limits;
 using std::cout;
 using std::endl;
 
-template <class NumberType, class Alloc>
+template <class NumberType, class NewOperandType>
 class StatisticFactory
 {
 public:
@@ -82,19 +82,24 @@ public:
 
 private:
   vector<Statistic*> _statistics;
+  NewOperandType *_newOperand;
 public:
+  StatisticFactory(NewOperandType *newOperand_ = NULL) : _newOperand(newOperand_) {}
   ~StatisticFactory()
   {
     for (auto statistic : _statistics) {
+      if (_newOperand != NULL) {
+        statistic->~Statistic();
+      }
       delete statistic;
     }
   }
   Statistic *ConstructStatistic(Type type_)
   {
     Statistic *statistic = nullptr;
-    if      (type_ == MIN) statistic = new Min();
-    else if (type_ == MAX) statistic = new Max();
-    else if (type_ == AVG) statistic = new Avg();
+    if      (type_ == MIN) statistic = _newOperand ? new (_newOperand) Min() : new Min();
+    else if (type_ == MAX) statistic = _newOperand ? new (_newOperand) Max() : new Max();
+    else if (type_ == AVG) statistic = _newOperand ? new (_newOperand) Avg() : new Avg();
     assert(statistic != nullptr);
     _statistics.push_back(statistic);
     return statistic;
