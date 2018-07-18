@@ -1,0 +1,13 @@
+#!/bin/sh -f
+
+set -e
+set -x
+
+g++ -g -std=c++0x ./main.cpp \
+  -Werror=reorder \
+  -Werror=unused-variable \
+  > gpp.log
+cat gpp.log
+
+./a.out
+
