@@ -12,7 +12,7 @@ using std::numeric_limits;
 using std::cout;
 using std::endl;
 
-template <class NumberType>
+template <class NumberType, class Alloc>
 class StatisticFactory
 {
 public:
@@ -74,6 +74,7 @@ public:
     {
       assert(_n != 0);
       return _f / static_cast<NumberType>(_n);
+          // Rounding not worth casting to float/double.
     }
   };
 

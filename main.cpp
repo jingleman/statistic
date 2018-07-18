@@ -1,5 +1,5 @@
 
-#include "./statistic_factory.hpp"  // StatisticFactory<float>
+#include "./statistic_factory.hpp"  // StatisticFactory
 #include <algorithm>  // min_element, max_element
 #include <numeric>    // accumulate
 #include <cstdlib> // rand, srand
@@ -12,44 +12,46 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+typedef float NumberType;
+typedef StatisticFactory<NumberType, std::allocator<NumberType>> SF;
+
 int main()
 {
   size_t n = 10;
-  vector<float, std::allocator<float>> v;
+  vector<NumberType> v;
   srand(time(0));
   cout << "input: ";
   for (size_t i = 0; i < n; ++i) {
-    float r = static_cast<float>(rand())
-            / static_cast<float>(RAND_MAX);
+    NumberType r = static_cast<NumberType>(rand());   // ok if floating point whole number.
     cout << r << " ";
     v.push_back(r);
   }
   cout << endl;
 
-  StatisticFactory<float> statisticFactory;
+  SF statisticFactory;
 
   {
-    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::MIN);
+    SF::Statistic *statistic = statisticFactory.ConstructStatistic(SF::MIN);
     for (auto f : v) statistic->Update(f);
-    float f = statistic->GetResult();
+    NumberType f = statistic->GetResult();
     cout << "min: " << f << endl;
     assert(f == *min_element(v.begin(), v.end()));
   }
 
   {
-    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::MAX);
+    SF::Statistic *statistic = statisticFactory.ConstructStatistic(SF::MAX);
     for (auto f : v) statistic->Update(f);
-    float f = statistic->GetResult();
+    NumberType f = statistic->GetResult();
     cout << "max: " << f << endl;
     assert(f == *max_element(v.begin(), v.end()));
   }
 
   {
-    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::AVG);
+    SF::Statistic *statistic = statisticFactory.ConstructStatistic(SF::AVG);
     for (auto f : v) statistic->Update(f);
-    float f = statistic->GetResult();
+    NumberType f = statistic->GetResult();
     cout << "avg: " << f << endl;
-    assert(f == std::accumulate(v.begin(), v.end(), 0.0f) / static_cast<float>(n));
+    assert(f == std::accumulate(v.begin(), v.end(), NumberType(0)) / static_cast<NumberType>(n));
         // Could use accumulate for min/max too but prefer the variety.
   }
 
