@@ -13,7 +13,8 @@ using std::cout;
 using std::endl;
 
 typedef float NumberType;
-typedef StatisticFactory<NumberType, int /* dummy */> SF;
+struct DummyNewOperandType {void deallocate(void *) {}};
+typedef StatisticFactory<NumberType, DummyNewOperandType> SF;
 
 int main()
 {

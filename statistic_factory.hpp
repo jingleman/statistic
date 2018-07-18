@@ -78,7 +78,7 @@ public:
     }
   };
 
-  enum Type {MIN, MAX, AVG};
+  enum Type {MIN, MAX, AVG, NONE};
 
 private:
   vector<Statistic*> _statistics;
@@ -90,12 +90,15 @@ public:
     for (auto statistic : _statistics) {
       if (_newOperand != NULL) {
         statistic->~Statistic();
+        _newOperand->deallocate(statistic);
+      } else {
+        delete statistic;
       }
-      delete statistic;
     }
   }
   Statistic *ConstructStatistic(Type type_)
   {
+    assert(type_ != NONE);   // redundant for now.
     Statistic *statistic = nullptr;
     if      (type_ == MIN) statistic = _newOperand ? new (_newOperand) Min() : new Min();
     else if (type_ == MAX) statistic = _newOperand ? new (_newOperand) Max() : new Max();
