@@ -1,5 +1,5 @@
 
-#include "./statistic_factory.hpp"  // StatisticFactory
+#include "./statistic_factory.hpp"  // StatisticFactory<float>
 #include <algorithm>  // min_element, max_element
 #include <numeric>    // accumulate
 #include <cstdlib> // rand, srand
@@ -10,6 +10,12 @@
 using std::vector;
 using std::cout;
 using std::endl;
+
+template <class T>
+class C
+{
+  T _t;
+};
 
 int main()
 {
@@ -25,10 +31,11 @@ int main()
   }
   cout << endl;
 
-  StatisticFactory statisticFactory;
+  StatisticFactory<float> statisticFactory;
+  statisticFactory = statisticFactory;  // TO DO: disable.
 
   {
-    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::MIN);
+    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::MIN);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "min: " << f << endl;
@@ -36,7 +43,7 @@ int main()
   }
 
   {
-    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::MAX);
+    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::MAX);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "max: " << f << endl;
@@ -44,7 +51,7 @@ int main()
   }
 
   {
-    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::AVG);
+    StatisticFactory<float>::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory<float>::AVG);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "avg: " << f << endl;

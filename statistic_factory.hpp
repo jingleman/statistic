@@ -12,8 +12,10 @@ using std::numeric_limits;
 using std::cout;
 using std::endl;
 
+template <class T>
 class StatisticFactory
 {
+  T _t;
 public:
   class Statistic
   {
@@ -28,6 +30,7 @@ public:
 
   class Min : public Statistic
   {
+    using Statistic::_f;
   public:
     Min() : Statistic(numeric_limits<float>::infinity()) {}
     virtual void Update(float f_) {_f = std::min(_f, f_);}
@@ -40,6 +43,7 @@ public:
 
   class Max : public Statistic
   {
+    using Statistic::_f;
   public:
     Max() : Statistic(-numeric_limits<float>::infinity()) {}
     virtual void Update(float f_) {_f = std::max(_f, f_);}
@@ -52,6 +56,7 @@ public:
 
   class Avg : public Statistic
   {
+    using Statistic::_f;
     size_t _n;  // Could have this in Statistic, for debug purposes.
   public:
     Avg() : Statistic(0.0f), _n(0) {}
