@@ -1,5 +1,5 @@
 
-#include "./statistic.hpp"  // Statistic, Min, Max, Avg, StatisticFactory
+#include "./statistic_factory.hpp"  // StatisticFactory
 #include <algorithm>  // min_element, max_element
 #include <numeric>    // accumulate
 #include <cstdlib> // rand, srand
@@ -28,7 +28,7 @@ int main()
   StatisticFactory statisticFactory;
 
   {
-    Statistic *statistic = statisticFactory.ConstructStatistic(Statistic::MIN);
+    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::MIN);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "min: " << f << endl;
@@ -36,7 +36,7 @@ int main()
   }
 
   {
-    Statistic *statistic = statisticFactory.ConstructStatistic(Statistic::MAX);
+    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::MAX);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "max: " << f << endl;
@@ -44,7 +44,7 @@ int main()
   }
 
   {
-    Statistic *statistic = statisticFactory.ConstructStatistic(Statistic::AVG);
+    StatisticFactory::Statistic *statistic = statisticFactory.ConstructStatistic(StatisticFactory::AVG);
     for (auto f : v) statistic->Update(f);
     float f = statistic->GetResult();
     cout << "avg: " << f << endl;
